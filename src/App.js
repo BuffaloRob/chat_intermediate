@@ -59,7 +59,7 @@ class MessageInput extends React.Component {
   handleSubmit = () => {
     store.dispatch({
       type: 'ADD_MESSAGE',
-      message: this.state.value,
+      text: this.state.value,
     });
     this.setState({
       value: '',
@@ -87,10 +87,10 @@ class MessageInput extends React.Component {
 }
 
 class MessageView extends React.Component {
-  handleClick = (index) => {
+  handleClick = (id) => {
     store.dispatch({
       type: 'DELETE_MESSAGE',
-      index: index,
+      id: id,
     });
   };
 
@@ -99,9 +99,12 @@ class MessageView extends React.Component {
       <div
         className='comment'
         key={index}
-        onClick={() => this.handleClick(index)}
+        onClick={() => this.handleClick(message.id)}
       >
-        {message}
+        <div className='text'>
+          {message.text}
+          <span className='metadata'>@{message.timestamp}</span>
+        </div>
       </div>
     ));
     return (
