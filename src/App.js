@@ -24,7 +24,27 @@ function reducer(state, action) {
   }
 }
 
-const initialState = { messages: [] };
+const initialState = {
+  activeThreadId: '1-fca2',
+  threads: [
+    {
+      id: '1-fca2',
+      title: 'Buzz',
+      messages: [
+        {
+          text: 'Twelve minutes until ingnition',
+          timestamp: Date.now(),
+          id: uuid.v4(),
+        },
+      ],
+    },
+    {
+      id: '2-be91',
+      title: 'Mike Collins',
+      messages: [],
+    },
+  ],
+};
 
 const store = createStore(reducer, initialState);
 
