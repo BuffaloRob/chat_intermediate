@@ -62,7 +62,6 @@ class App extends React.Component {
     return (
       <div className='ui segment'>
         <Thread thread={activeThread} />
-        <MessageInput />
       </div>
     );
   }
@@ -109,7 +108,7 @@ class MessageInput extends React.Component {
   }
 }
 
-class MessageView extends React.Component {
+class Thread extends React.Component {
   handleClick = (id) => {
     store.dispatch({
       type: 'DELETE_MESSAGE',
@@ -118,7 +117,7 @@ class MessageView extends React.Component {
   };
 
   render() {
-    const messages = this.props.messages.map((message, index) => (
+    const messages = this.props.thread.messages.map((message, index) => (
       <div
         className='comment'
         key={index}
@@ -128,6 +127,7 @@ class MessageView extends React.Component {
           {message.text}
           <span className='metadata'>@{message.timestamp}</span>
         </div>
+        <MessageInput />
       </div>
     ));
     return (
