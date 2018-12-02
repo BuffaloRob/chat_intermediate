@@ -99,7 +99,7 @@ class ThreadTabs extends React.Component {
       </div>
     ))
     return (
-      <div className='ui top attached tubular menu'>
+      <div className='ui top attached tabular menu'>
         {tabs}
       </div>
     );
@@ -174,7 +174,7 @@ class Thread extends React.Component {
         <div className='ui comments'>
           {messages}
         </div>
-        <MessageInput thread={this.props.thread.id} />
+        <MessageInput threadId={this.props.thread.id} />
       </div>
     );
   }
