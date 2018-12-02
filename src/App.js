@@ -58,10 +58,35 @@ class App extends React.Component {
     const activeThreadId = state.activeThreadId;
     const threads = state.threads;
     const activeThread = threads.find((t) => t.id === activeThreadId);
+    const tabs = threads.map(t => (
+      {
+        title: t.title,
+        active: t.id === activeThreadId,
+      }
+    ));
 
     return (
       <div className='ui segment'>
+        <ThreadTabs tabs={tabs} />
         <Thread thread={activeThread} />
+      </div>
+    );
+  }
+}
+
+class ThreadTabs extends React.Component {
+  render() {
+    const tabs = this.props.tabs.map((tab, index) => (
+      <div
+        key={index}
+        className={tab.active ? 'active item' : 'item'}
+      >
+        {tab.title}
+      </div>
+    ))
+    return (
+      <div className='ui top attached tubular menu'>
+        {tabs}
       </div>
     );
   }
