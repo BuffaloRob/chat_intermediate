@@ -121,6 +121,7 @@ class MessageInput extends React.Component {
     store.dispatch({
       type: 'ADD_MESSAGE',
       text: this.state.value,
+      threadId: this.props.threadId,
     });
     this.setState({
       value: '',
@@ -166,7 +167,6 @@ class Thread extends React.Component {
           {message.text}
           <span className='metadata'>@{message.timestamp}</span>
         </div>
-        <MessageInput />
       </div>
     ));
     return (
@@ -174,6 +174,7 @@ class Thread extends React.Component {
         <div className='ui comments'>
           {messages}
         </div>
+        <MessageInput thread={this.props.thread.id} />
       </div>
     );
   }
