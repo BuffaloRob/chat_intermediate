@@ -2,7 +2,7 @@ import React from 'react';
 import { createStore } from 'redux';
 import uuid from 'uuid';
 
-function reducer(state, action) {
+function reducer(state = {}, action) {
   return {
     activeThreadId: activeThreadIdReducer(state.activeThreadId, action),
     threads: threadsReducer(state.threads, action),
@@ -99,7 +99,7 @@ const initialState = {
   ],
 };
 
-const store = createStore(reducer, initialState);
+const store = createStore(reducer);
 
 class App extends React.Component {
   componentDidMount() {
