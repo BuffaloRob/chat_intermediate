@@ -19,18 +19,13 @@ function activeThreadIdReducer(state, action) {
 
 function threadsReducer(state, action) {
   if (action.type === 'ADD_MESSAGE') {
-    const newMessage = {
-      text: action.text,
-      timestamp: Date.now(),
-      id: uuid.v4(),
-    }
     const threadIndex = state.findIndex(
       (t) => t.id === action.threadId
     );
     const oldThread = state[threadIndex];
     const newThread = {
       ...oldThread,
-      messages: oldThread.messages.concat(newMessage),
+      messages: messageReducer(oldThread.messages, action),
     };
 
     return [
@@ -56,6 +51,30 @@ function threadsReducer(state, action) {
           newThread,
           ...state.slice(threadIndex + 1, state.length)
         ];
+  } else {
+    return state;
+  }
+}
+
+function messageReducer(state, action) {
+  if (action.type === 'ADD_MESSAGE') {
+    const newMessage = {
+      text: action.text,
+      timestamp: Date.now(),
+      id: uuid.v4(),
+    };
+    return state.concat(newMessage);
+  } else if (action.type === 'DELETE_MESSAGE'){
+    const threadIndex = state.findIndex(
+      t => t.messages.find(m => (
+        m.id === action.id
+      ))
+    );
+    const oldThread = state[threadIndex];
+    const newThread = {
+      ...oldThread,
+      messages: messageReducer(oldThread.messages, action),
+    };
   } else {
     return state;
   }
