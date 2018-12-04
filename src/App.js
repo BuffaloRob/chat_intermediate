@@ -17,46 +17,48 @@ function activeThreadIdReducer(state, action) {
   }
 }
 
-function threadsReducer(state, action) {
-  if (action.type === 'ADD_MESSAGE') {
-    const threadIndex = state.findIndex(
-      (t) => t.id === action.threadId
-    );
-    const oldThread = state[threadIndex];
-    const newThread = {
-      ...oldThread,
-      messages: messageReducer(oldThread.messages, action),
-    };
-
-    return [
-        ...state.slice(0, threadIndex),
-        newThread,
-        ...state.slice(threadIndex + 1, state.length)
-      ];
-  } else if (action.type === 'DELETE_MESSAGE') {
-      const threadIndex = state.findIndex(
-        (t) => t.messages.find(m => (
+const findThreadIndex = (threads, action) => {
+  switch (action.type) {
+    case 'ADD_MESSAGE': {
+      return threads.findIndex(
+        t => t.id === action.threadId
+      );
+    }
+    case 'DELETE_MESSAGE': {
+      return threads.findIndex(
+        t => t.messages.find( m => (
           m.id === action.id
         ))
       );
-      const oldThread = state[threadIndex];
-      const newThread = {
-        ...oldThread,
-        messages: oldThread.messages.filter(m => (
-          m.id !== action.id
-        )),
-      };
-      return [
-          ...state.slice(0, threadIndex),
-          newThread,
-          ...state.slice(threadIndex + 1, state.length)
-        ];
-  } else {
-    return state;
+    }
   }
 }
 
-function messageReducer(state, action) {
+function threadsReducer(state, action) {
+  switch (action.type) {
+    case 'ADD_MESSAGE':
+    case 'DELETE_MESSAGE': {
+      const threadIndex = findThreadIndex(state, action);
+      const oldThread = state[threadIndex];
+      const newThread = {
+        ...oldThread,
+        messages: messagesReducer(oldThread.messages, action),
+      };
+      return [
+        ...state.slice(0, threadIndex),
+        newThread,
+        ...state.slice(
+          threadIndex + 1, state.length
+        ),
+      ];
+    }
+    default: {
+      return state;
+    }
+  }
+}
+
+function messagesReducer(state, action) {
   if (action.type === 'ADD_MESSAGE') {
     const newMessage = {
       text: action.text,
@@ -73,7 +75,7 @@ function messageReducer(state, action) {
     const oldThread = state[threadIndex];
     const newThread = {
       ...oldThread,
-      messages: messageReducer(oldThread.messages, action),
+      messages: messagesReducer(oldThread.messages, action),
     };
   } else {
     return state;
