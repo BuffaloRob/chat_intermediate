@@ -1,13 +1,17 @@
 import React from 'react';
-import { createStore } from 'redux';
+import { createStore, combineReducers } from 'redux';
 import uuid from 'uuid';
 
-function reducer(state = {}, action) {
-  return {
-    activeThreadId: activeThreadIdReducer(state.activeThreadId, action),
-    threads: threadsReducer(state.threads, action),
-  };
-}
+// function reducer(state = {}, action) {
+//   return {
+//     activeThreadId: activeThreadIdReducer(state.activeThreadId, action),
+//     threads: threadsReducer(state.threads, action),
+//   };
+// }
+const reducer = combineReducers({
+  activeThreadId: activeThreadIdReducer,
+  threads: threadsReducer,
+});
 
 function activeThreadIdReducer(state = '1-fca2', action) {
   if (action.type === 'OPEN_THREAD') {
