@@ -224,6 +224,18 @@ const MessageList = props => (
   </div>
 );
 
+const Thread = props => (
+  <div className='ui center aligned basic segment'>
+    <MessageList 
+      messages={props.thread.messages}
+      onClick={props.onMessageClick}
+    />
+    <TextFieldSubmit 
+      onSubmit={props.onMessageSubmit}
+    />
+  </div>
+)
+
 class ThreadDisplay extends React.Component {
   handleClick = (id) => {
     store.dispatch({
