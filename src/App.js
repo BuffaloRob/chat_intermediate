@@ -137,28 +137,44 @@ const mapStateToTabsProps = state => {
   };
 };
 
-class ThreadTabs extends React.Component {
-
-  componentDidMount() {
-    store.subscribe(() => this.forceUpdate());
+const mapDispatchToTabsProps = dispatch => (
+  {
+    onClick: (id) => (
+      dispatch({
+        type: 'OPEN_THREAD',
+        id: id,
+      })
+    ),
   }
+);
 
-  render() {
-    const state = store.getState();
+const ThreadTabs = connect(
+  mapStateToTabsProps,
+  mapDispatchToTabsProps
+)(Tabs);
 
-    return (
-      <Tabs 
-        tabs={tabs}
-        onClick={(id) => (
-          store.dispatch({
-            type: 'OPEN_THREAD',
-            id: id,
-          })
-        )}
-      />
-    );
-  }
-}
+// class ThreadTabs extends React.Component {
+
+//   componentDidMount() {
+//     store.subscribe(() => this.forceUpdate());
+//   }
+
+//   render() {
+//     const state = store.getState();
+
+//     return (
+//       <Tabs 
+//         tabs={tabs}
+//         onClick={(id) => (
+//           store.dispatch({
+//             type: 'OPEN_THREAD',
+//             id: id,
+//           })
+//         )}
+//       />
+//     );
+//   }
+// }
 
 class TextFieldSubmit extends React.Component {
   state = {
