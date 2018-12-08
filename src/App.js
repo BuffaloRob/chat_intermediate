@@ -1,5 +1,6 @@
 import React from 'react';
 import { createStore, combineReducers } from 'redux';
+import { Provider, connect } from 'react-redux';
 import uuid from 'uuid';
 
 // function reducer(state = {}, action) {
@@ -99,8 +100,13 @@ const App = () => (
     <ThreadTabs />
     <ThreadDisplay />
   </div>
+)
+const WrappedApp = () => (
+    <Provider store={store} >
+      <App />
+    </Provider>
 );
-
+  
 const Tabs = props => (
   <div className='ui top attached tabular menu'>
     {
@@ -117,6 +123,20 @@ const Tabs = props => (
   </div>
 )
 
+const mapStateToTabsProps = state => {
+  const tabs = state.threads.map(t => (
+    {
+      title: t.title,
+      active: t.id === state.activeThreadId,
+      id: t.id,
+    }
+  ));
+
+  return {
+    tabs,
+  };
+};
+
 class ThreadTabs extends React.Component {
 
   componentDidMount() {
@@ -125,13 +145,6 @@ class ThreadTabs extends React.Component {
 
   render() {
     const state = store.getState();
-    const tabs = state.threads.map(t => (
-      {
-        title: t.title,
-        active: t.id === state.activeThreadId,
-        id: t.id,
-      }
-    ));
 
     return (
       <Tabs 
@@ -248,4 +261,4 @@ class ThreadDisplay extends React.Component {
   }
 }
 
-export default App;
+export default WrappedApp;
