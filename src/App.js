@@ -285,6 +285,8 @@ const ThreadDisplay = connect(
   mergeThreadProps
 )(Thread);
 
+export default WrappedApp;
+
 // class ThreadDisplay extends React.Component {
 //   componentDidMount() {
 //     store.subscribe(() => this.forceUpdate());
@@ -317,4 +319,4 @@ const ThreadDisplay = connect(
 //   }
 // }
 
-export default WrappedApp;
+
