@@ -93,6 +93,28 @@ function messagesReducer(state = [], action) {
   }
 }
 
+const deleteMessage = id => (
+  {
+    type: 'DELETE_MESSAGE',
+    id: id,
+  }
+);
+
+const addMessage = (text, threadId) => (
+  {
+    type: 'ADD_MESSAGE',
+    text: text,
+    threadId: threadId,
+  }
+);
+
+const openThread = id => (
+  {
+    type: 'OPEN_THREAD',
+    id: id,
+  }
+)
+
 const store = createStore(reducer);
 
 const App = () => (
@@ -140,13 +162,11 @@ const mapStateToTabsProps = state => {
 const mapDispatchToTabsProps = dispatch => (
   {
     onClick: (id) => (
-      dispatch({
-        type: 'OPEN_THREAD',
-        id: id,
-      })
+      dispatch(openThread(id))
     ),
   }
 );
+
 
 const ThreadTabs = connect(
   mapStateToTabsProps,
